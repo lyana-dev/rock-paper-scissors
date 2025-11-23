@@ -1,46 +1,74 @@
+// initialise variables with the default values (constructors)
+let gameRound = 0; //setting a new game
+const maxRound = 3;
+let stopGame = false;
+
 function play(userChoice) {
-    var choice = ["Rock", "Paper", "Scissors"];
-    /* Generating random numbers, rounding them down to an integer and story as an array src=https://dev.to/kanaga_vimala_66acce9cf6e/understanding-mathrandom-mathfloor-and-arrays-in-javascript-mkl */
+    /* The return statement ends function execution and specifies a value to be returned to the function caller.
+    https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/return */
+    // chceck the condition of the game first
+    if (stopGame == true){
+        return;
+    } 
+
+    if (gameRound >= maxRound) {
+        document.getElementById("result").innerHTML = "Game over! You have played 3 rounds...";
+        hide();
+        return;
+    }
+    
+    // every time the play button is clicked, gameRound counter adds 1 
+    gameRound = gameRound + 1;
+
+    let choice = ["Rock", "Paper", "Scissors"];
     var computerChoice = choice[Math.floor(Math.random() * 3)];
+    let displayResults = "";
 
+    // checking for a tie
     if (userChoice == computerChoice) {
-        document.getElementById("result").innerHTML = "Hehe it's a tie...<br>Your choice: " + userChoice + "<br>Computer choice: " + computerChoice;
-        hide();
-
+        displayResults = "Hehe it's a tie...<br>Your choice: " + userChoice + "<br>Computer choice: " + computerChoice;
     }
+    else {
 
-    else if (userChoice == "Rock") {
-        if (computerChoice == "Scissors") {
-        document.getElementById("result").innerHTML = "Congratulations, you win!<br>Your choice: Rock<br>Computer choice: Scissors";
-        hide();
-        } 
+        // initialising the variables
+        let i = 0;
+        let win = false;
+
+        // going through all possible win scenarios
+        while (i < 3) {
+            if (i == 0 && userChoice == "Rock" && computerChoice == "Scissors") {
+                win = true;
+            }
+            else if (i == 1 && userChoice == "Paper" && computerChoice == "Rock") {
+                win = true;
+            }
+            else if (i == 2 && userChoice == "Scissors" && computerChoice == "Paper") {
+                win = true;
+            }
+
+            i = i + 1;
+        }
+
+        // what happens if the user wins (from the above while loop)
+        if (win == true) {
+            displayResults = "Congratulations, you win!<br>Your choice: " + userChoice + "<br>Computer choice: " + computerChoice
+            // stopping the game once the user wins
+            stopGame = true;
+            hide();
+        }
+        // what happens if the user loses
         else {
-        document.getElementById("result").innerHTML = "Sorry, you lose...<br>Your choice: Rock<br>Computer choice: Paper";
-        hide();
+            displayResults = "Sorry, you lose...<br>Your choice: " + userChoice + "<br>Computer choice: " + computerChoice;
         }
     }
 
-    else if (userChoice == "Paper") {
-        if (computerChoice == "Rock") {
-        document.getElementById("result").innerHTML = "Congratulations, you win!<br>Your choice: Paper<br>Computer choice: Rock";
+    if (gameRound >= maxRound) {
+        displayResults = displayResults + "<br><br>Game over!<br>You played 3 rounds.";
         hide();
-        }
-        else {
-        document.getElementById("result").innerHTML = "Sorry, you lose...<br>Your choice: Paper<br>Computer choice: Scissors";
-        hide();
-        }
     }
 
-    else if (userChoice == "Scissors") {
-        if (computerChoice == "Paper") {
-        document.getElementById("result").innerHTML = "Congratulations, you win!<br>Your choice: Scissors<br>Computer choice: Paper";
-        hide();
-        }
-        else {
-        document.getElementById("result").innerHTML = "Sorry, you lose...<br>Your choice: Scissors<br>Computer choice: Rock";
-        hide();
-        }
-    }
+    // displaying the results
+    document.getElementById("result").innerHTML = displayResults;
 }
 
 // hiding the choice question and the three buttons
