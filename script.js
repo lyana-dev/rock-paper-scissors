@@ -69,7 +69,7 @@ function play(userChoice) {
     }
 
     if (gameRound >= maxRound || stopGame == true) {
-        displayResults = displayResults + "<br><br>Game over!<br>You played " +gameRound +" rounds.";
+        displayResults = displayResults + "<br><br>Game over!<br>You played " +gameRound +" round(s).";
         displayResults = displayResults + "<br><br>Your choices: " + userChoices.toString() + "<br>Computer's choices: " + computerChoices.toString();
         hide();
     }
